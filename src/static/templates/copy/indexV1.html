@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}Astro-Coffee@Example{% end %}
+
+{% block pageheader %}
+
+{% include "topbar.html" %}
+
+
+{% block pagecontent %}
+
+<div class="row">
+  <div class="large-8 columns">
+    <h1>Welcome to RRstarSearch!</h1>
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="small-12 columns">
+
+    <p> this is a test server for computing rapid rotating star calculations.
+
+  </div>
+</div>
+
+<div class="row top-margin-row">
+    <div class="small-12 medium-8 large-6 medium-centered large-centered columns">
+    
+      <form method="POST"
+          action=""
+          id = "basicsearch-form"
+          name = "basicsearch-form"
+          data-abide>
+
+          <div class = "row collapse">
+              <div class="small-10 columns">
+                  <label class="hide" for "basicsearch-params">
+                      object identifier
+                    </label>
+                    <input type="search"
+                           place holder="object identifier"
+                           id = "quicksearch-params"
+                           name = "quicksearch-params" required autofocus>
+                    <SELECT NAME="prior">
+                        <OPTION SELECTED> Apples
+                        <OPTION> Bananas
+                        <OPTION> Oranges
+                    </SELECT>
+                <small class="error">
+                  Enter a valid 2MASS or HIP object identifier 
+                </small>
+              </div>
+              <div class="small-2 columns">
+                <a href="#" class = "botton postfix radius"
+                    id = "quicksearch-go"
+                    name = "quicksearch-go">Search</a>
+              </div>
+          </div>
+          {% module xsrf_form_html() %}
+      </form>
+  </div>
+<div class=row>
+  <div class="large-8 columns">
+      <img src="../images/gd.png"
+           height = 100>
+  </div>
+</div>
+
+{% end %}
