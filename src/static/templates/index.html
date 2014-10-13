@@ -11,9 +11,11 @@
               type="text/css" rel="stylesheet">
         <link href="{{ static_url("css/normalize.css") }}"
               type="text/css" rel="stylesheet">
-        <link href="{{ static_url("css/foundation.min.css") }}"
+        <link href="{{ static_url("css/foundation.css") }}"
               type="text/css" rel="stylesheet">
-
+        <link href="{{ static_url("css/formtable.css") }}"
+              type="text/css" rel="stylesheet">
+        
     </head>
 
 
@@ -36,18 +38,36 @@
         </div>
 
         <div class="row top-margin-row">
-            <div class="small-12 medium-8 large-6 medium-centered large-centered columns">
-        <form name='input' action='/' method='post'>
-          object:
-          <input type='text' name='find'/>
-          <SELECT NAME="prior">
-          <OPTION SELECTED> Apples
-          <OPTION> Bananas
-          <OPTION> Oranges
+          <div class="small-12 medium-8 large-6 medium-centered large-centered columns">
+          <form name='input' action='/' method='post'>
+          <table border="0" id="form_table">
+          <tr>
+              <th width = "30%">Object &#8250;</th>
+              <td>
+                  <input type='text' name='find'/>
+                  <span> Enter a valid HIP ID </span>
+              </td>
+          </tr>
+          <tr>
+              <th valign="top">FeH Prior &#8250;</th>
+              <td>
+                  <textarea type='text' name='mean' style = "width:110px"/></textarea><span>Enter the center value of your metalicity prior</span>
+                  <textarea type='text' name='sigma'style= "width:110px"/></textarea><span>Enter the dispersion value of your metalicity prior</span>
+              <td>
+          </tr>
+          <tr>
+              <th></th>
+          <td>
+          <SELECT NAME="prior" style="width:110px">
+          <OPTION SELECTED> Gaussian 
+          <OPTION> Tophat
           </SELECT>
           <input type='submit' value='search'/>
+          <td>
+          </tr>
+          </table>
           <small class="error">
-          Enter a valid 2MASS or HIP object identifier 
+          Enter a valid HIP object identifier 
           </small>
 
         {% module xsrf_form_html() %}
@@ -62,7 +82,15 @@
          {{ outcome }}
       </div>
     </div>
-         
+    
+    <div class = row>
+          <div class="large-8 columns">
+              {% raw canvas %}
+          </div>
+      </div>
+
+
+
 
      <div class = row>
           <div class="large-8 columns">

@@ -1,0 +1,85 @@
+/* Standard Forms */
+form {
+  margin: 0 0 1rem; }
+
+
+/* Using forms within rows, we need to set some defaults */
+form .row .row {
+  margin: 0 -0.5rem; }
+  form .row .row .column,
+  form .row .row .columns {
+    padding: 0 0.5rem; }
+    form .row .row.collapse {
+    margin: 0; }
+    form .row .row.collapse .column,
+    form .row .row.collapse .columns {
+      padding: 0; }
+    form .row .row.collapse input {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0; }
+form .row input.column,
+form .row input.columns,
+form .row textarea.column,
+form .row textarea.columns {
+  padding-left: 0.5rem; }
+
+
+#form_table{
+	width:450px;
+	border:2px solid #444;
+	margin: 30px auto;
+	font-family: arial;
+	color:#fff;
+	}
+#form_table th {
+	text-align: right;
+	color: #000;
+	font-size: 14px;
+	}
+#form_table td {
+	position: relative;
+	width: 40%;
+	}
+#form_table caption {
+	height: 58px;
+	 line-height: 58px;
+	 width: 450px;
+	 font-size: 21px;
+	 font-weight: bolder;
+	 }
+#form_table input, #form_table textarea {
+	width: 250px;
+	background-color: #eee;
+	display: inline;
+	color: #000;
+	border:2px solid #444;
+	margin:2px 5px;
+	font-family: arial;
+	height: 28px;
+	font-size: 13px;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+}
+#form_table input[type=submit], #form_table input[type=reset] {
+	width: 120px;
+	}
+#form_table input:focus, #form_table textarea:focus{
+	background:#eee;
+	}
+#form_table input + span, #form_table textarea + span {
+	display: none;
+	
+	line-height: 32px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #999;
+	padding:0px 20px;
+	position: absolute;
+	width: 180px;
+	z-index:99;
+	}
+
+
+
+</style>

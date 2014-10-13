@@ -11,7 +11,9 @@
               type="text/css" rel="stylesheet">
         <link href="{{ static_url("css/normalize.css") }}"
               type="text/css" rel="stylesheet">
-        <link href="{{ static_url("css/foundation.min.css") }}"
+        <link href="{{ static_url("css/foundation.css") }}"
+              type="text/css" rel="stylesheet">
+        <link href="{{ static_url("css/formtable.css") }}"
               type="text/css" rel="stylesheet">
 
     </head>
@@ -37,25 +39,68 @@
 
         <div class="row top-margin-row">
             <div class="small-12 medium-8 large-6 medium-centered large-centered columns">
-        <form name='input' action='/' method='post'>
-          object:
-          <input type='text' name='plx' width=50/><input type='text' name='plxerr' width=50/>
-          <input type='text' name='vsini'/><input type='text' name='vsinierr'/>
-          <input type='text' name='BT'/><input type='text' name='BTerr'/>
-          <input type='text' name='VT'/><input type='text' name='VTerr'/>
-          <input type='text' name='J'/><input type='text' name='Jerr'/>
-          <input type='text' name='H'/><input type='text' name='Herr'/>
-          <input type='text' name='K'/><input type='text' name='Kerr'/>
-          <SELECT NAME="prior">
-          <OPTION SELECTED> Apples
-          <OPTION> Bananas
-          <OPTION> Oranges
-          </SELECT>
-          <input type='submit' value='search'/>
-          <small class="error">
-          Enter a valid 2MASS or HIP object identifier 
-          </small>
+            <form name='input' action='/' method='post'>
+                <table border="0" id="form_table" style="width:400px">
+                <tr>
+                    <th width = "5%">PLX &#8250;</th>
+                    <td>
+                        <input type='text' name='plx' style="width:100px"/><input type='text' name='plxerr' style="width:100px" />                                                     
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">Vsini &#8250;</th>
+                    <td>
+                        <input type='text' name='vsini' style="width:100px" /><input type='text' name='vsinierr' style="width:100px" />                          
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">BT &#8250;</th>
+                    <td>
+                        <input type='text' name='BT' style="width:100px" /><input type='text' name='BTerr' style="width:100px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">VT &#8250;</th>
+                    <td>
+                        <input type='text' name='VT' style="width:100px" /><input type='text' name='VTerr' style="width:100px" />
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">J &#8250;</th>
+                    <td>
+                        <input type='text' name='J' style="width:100px"/><input type='text' name='Junc' style="width:100px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">H &#8250;</th>
+                    <td>
+                        <input type='text' name='H' style="width:100px"/><input type='text' name='Hunc' style="width:100px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">K &#8250;</th>
+                    <td>
+                        <input type='text' name='K' style="width:100px"/><input type='text' name='Kerr' style="width:100px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width = "5%">FeH &#8250;</th>
+                    <td>
+                        <input type='text' name='mean' style="width:100px"/><input type='text' name='sigma' style="width:100px"/>
+                    </td>
+                </tr>
 
+                <tr>
+                    <th></th>
+                <td>
+                <SELECT NAME="prior" style="width:110px">
+                <OPTION SELECTED> Gaussian
+                <OPTION> Tophat
+                </SELECT>
+                <input type='submit' value='search'/>
+                </td>                                                          
+                </tr>
+                </table>
         {% module xsrf_form_html() %}
     </form>
     </div>

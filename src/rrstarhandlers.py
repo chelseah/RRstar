@@ -102,6 +102,15 @@ def load_hiptable(infile,keys):
         IDarr.append(int(cat_form.read_data(line.rstrip().split(),"id")))
     return [data_table,IDarr]
 
+class HIPobjs(object):
+    def __init__():
+        return
+
+    def __str__():
+        return
+
+    def plot_posterior():
+        return
 
 class RRstarHandler(tornado.web.RequestHandler):
     def initialize(self,catlog="data/hip_band.txt",keys=[]):
@@ -110,18 +119,22 @@ class RRstarHandler(tornado.web.RequestHandler):
             self.keys=keys
         self.hip_table,self.IDarr=load_hiptable(catlog,self.keys)
         self.IDarr = np.array(self.IDarr)
+        self.empty_canvas = "<img src=\"/rrstar/static/img/empty_canvas.png\" height = 500>"
         return
     def get(self):
         #self.write("in get\n")
-        self.render("index.html",outcome="no result")
+        self.render("index.html",outcome="no result",canvas=self.empty_canvas)
                 #    #self.write("\n")
         #else:
         #    self.write("no parameters given\n")
         #    self.render("rrstar/readme.html")
-    def send_search_info(self,msg):
+    def send_search_info(self,msg,canvas=""):
         print msg
-        #self.render("searchresult.html",outcome=msg) 
-        self.render("index.html",outcome=msg) 
+        #self.render("searchresult.html",outcome=msg)
+        if canvas=="":
+            self.render("index.html",outcome=msg,canvas=self.empty_canvas)
+        else:
+            self.render("index.html",outcome=msg,canvas=canvas) 
         #self.render("data.html") 
     def do_search(self):
         if self.quicksearch_params.startswith("HIP"):
@@ -147,8 +160,10 @@ class RRstarHandler(tornado.web.RequestHandler):
         except IndexError:
             return "Error: Couldn't find the given HIP ID "
     def post(self):
-        self.prior = self.get_argument('prior')
-        print self.prior
+        self.prior = self.get_argument('prior',None)
+        self.prior_mean = self.get_argument('mean',np.nan)
+        self.prior_sigma = self.get_argument('sigma',np.nan)
+        #print self.prior
         self.quicksearch_params = self.get_argument('find',None)
         if self.quicksearch_params:
             self.quicksearch_params = xhtml_escape(
@@ -156,7 +171,7 @@ class RRstarHandler(tornado.web.RequestHandler):
                     )
             #msg = "search ID is %s, prior is %s" % (self.quicksearch_params,self.prior)
             msg = self.do_search()
-            msg+="prior is %s" % (self.prior)
+            msg+=" Prior is %s, with mean=%f, sigma=%f" % (self.prior,float(self.prior_mean),float(self.prior_sigma))
             self.send_search_info(msg)
 
 
