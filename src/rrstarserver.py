@@ -136,6 +136,7 @@ if __name__ == '__main__':
         (r'/rrstar/',rrstarhandlers.RRstarHandler),
         (r'/rrstar/about',rrstarhandlers.AboutHandler),
         (r'/rrstar/data',rrstarhandlers.DataHandler),
+        (r'/rrstar/upload',rrstarhandlers.UploadFileHandler),
         (r'/rrstar/stellar',rrstarhandlers.StellarHandler)
     ]
 

@@ -20,6 +20,7 @@ import tornado.web
 from tornado.escape import xhtml_escape, xhtml_unescape, url_unescape
 from catformat import cat_format 
 import numpy as np
+import time
 #import webdb
 
 #import zmq
@@ -170,6 +171,10 @@ class HIPobjs(object):
         if not self.tempfigurelink=='' and os.path.exists(self.tempfigurelink.name):
             os.unlink(tempfigurelink.name)
 
+
+def file_search(infile):
+    return str(infile)
+
 class RRstarHandler(tornado.web.RequestHandler):
     def initialize(self,catlog="data/hip_band.txt",keys=[]):
         self.keys = ["id","plx","eplx","vsini","evsini","BT","eBT","VT","eVT","J","eJ","K","eK","H","eH"]
@@ -244,6 +249,30 @@ class RRstarHandler(tornado.web.RequestHandler):
                 self.send_search_info(msg)
       
 
+class UploadFileHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("upload.html",outcome="no result")
+    
+    @tornado.web.asynchronous
+    def post(self):
+        #upload_path = os.path.join(os.path.dirname(__file__),'files')
+        upload_path="files"
+        file_metas=self.request.files['file']
+        for meta in file_metas:
+            filename=meta['filename']
+            filepath=os.path.join(upload_path,filename)
+            #print filepath
+            with open(filepath,'wb') as up:
+                up.write(meta['body'])
+        if os.path.exists(filepath):
+            #self.add_header("this will take a few minutes...")
+            file_search(filepath)
+            result = file_search(filepath)
+            time.sleep(5) #need to get rid of that when we are actually doing the calculation
+            self.render("upload.html",outcome="the result are:")
+        else:
+            self.render("upload.html",outcome="Error: file upload failed")
+             
 
 class AboutHandler(tornado.web.RequestHandler):
     def initialize(self):
