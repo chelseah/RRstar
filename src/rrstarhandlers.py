@@ -18,7 +18,7 @@ from pytz import utc, timezone
 
 import tornado.web
 from tornado.escape import xhtml_escape, xhtml_unescape, url_unescape
-from catformat import cat_format 
+from catformat import cat_format,request_table 
 import numpy as np
 import time
 #import webdb
@@ -173,6 +173,8 @@ class HIPobjs(object):
 
 
 def file_search(infile):
+    fin = open(infile,mode="w")
+     
     return str(infile)
 
 class RRstarHandler(tornado.web.RequestHandler):
@@ -266,7 +268,7 @@ class UploadFileHandler(tornado.web.RequestHandler):
                 up.write(meta['body'])
         if os.path.exists(filepath):
             #self.add_header("this will take a few minutes...")
-            file_search(filepath)
+            #file_search(filepath)
             result = file_search(filepath)
             time.sleep(5) #need to get rid of that when we are actually doing the calculation
             self.render("upload.html",outcome="the result are:")

@@ -54,3 +54,40 @@ class cat_format(object):
                 return np.nan
             else:
                 raise
+
+class request_table(object):
+    def __init__(self):
+        self.catformat=dict(id=dict(col=0, type='string', width=17),
+                       plx =dict(col=1, type='float', width=10),
+                       eplx =dict(col=2, type='float', width=10),
+                       BT=dict(col=3, type='float', width=6),
+                       eBT=dict(col=4, type='float', width=6),
+                       VT=dict(col=5, type='float', width=6),
+                       eVT=dict(col=6, type='float', width=6),
+                       vsini=dict(col=7, type='float', width=6),
+                       evsini=dict(col=8, type='float', width=6),
+                       J=dict(col=9, type='float', width=6),
+                       eJ=dict(col=10, type='float', width=6),
+                       H=dict(col=11, type='float', width=6),
+                       eH=dict(col=12, type='float', width=6),
+                       K=dict(col=13, type='float', width=6),
+                       eK=dict(col=14, type='float', width=6),
+                       )
+        #return catformat
+    def load_line(self,data,keys):
+        values = []
+        for key in keys:
+            values.append(self.read_data(data.split(),key))
+        return values
+
+    def read_data(self,data,key):
+        try: 
+            #print key,self.catformat[key],data[self.catformat[key]['col']]
+            return eval(data[self.catformat[key]['col']])
+        except NameError:
+            if data[self.catformat[key]['col']] =='nan':
+                return np.nan
+            else:
+                raise
+        except IndexError:
+            return 
