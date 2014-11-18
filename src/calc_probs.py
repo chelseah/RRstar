@@ -12,12 +12,13 @@ def makebins(arr):
 
 def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
-    prefix = '/home/tbrandt/Rotating/Rotsrc'
+    #prefix = '/home/tbrandt/Rotating/Rotsrc/output_rot'
+    prefix = '.'
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
-        filename = prefix + '/output_rot/HIP' + star + '.fits.gz'
+        filename = prefix + '/HIP' + star + '.fits.gz'
     else:
-        filename = prefix + '/output_nr/HIP' + star + '.fits'
+        filename = prefix + '/HIP' + star + '.fits'
     hdulist = pyf.open(filename)
     chi2 = hdulist[0].data
     print star, chi2
@@ -37,10 +38,11 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     hdulist.close()
 
     # Read in M, metallicity, age from huge input file
-    hdulist = pyf.open(prefix + '/isochron_tables/nr_isochrones_finemassgrid.fits')
-    M = hdulist[0].data #[::2]
+    #hdulist = pyf.open(prefix + '/isochron_tables/nr_isochrones_finemassgrid.fits')
+    hdulist = pyf.open(prefix + '/finemassgrid.fits')
+    M = hdulist[0].data
     Z = hdulist[1].data
-    logT = hdulist[3].data #[::2]
+    logT = hdulist[3].data
     hdulist.close()
 
     # Omega/Omega_crit, inclination
