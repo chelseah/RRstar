@@ -236,7 +236,7 @@ class RRstarHandler(tornado.web.RequestHandler):
                 print "star true"
             if(not star):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
-                msg = str(star)
+                msg = str(star) #this is the star name
                 msg+=" Prior is %s, with mean=%f, sigma=%f" % (self.prior,float(self.prior_mean),float(self.prior_sigma))
                 self.send_search_info(msg,star.plot_posterior())
             else:
