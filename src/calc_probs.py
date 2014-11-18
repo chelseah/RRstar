@@ -12,11 +12,12 @@ def makebins(arr):
 
 def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
+    prefix = '/home/tbrandt/Rotating/Rotsrc'
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
-        filename = 'output_rot/HIP' + star + '.fits.gz'
+        filename = prefix + '/output_rot/HIP' + star + '.fits.gz'
     else:
-        filename = 'output_nr/HIP' + star + '.fits'
+        filename = prefix + '/output_nr/HIP' + star + '.fits'
     hdulist = pyf.open(filename)
     chi2 = hdulist[0].data
     print star, chi2
@@ -36,7 +37,7 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     hdulist.close()
 
     # Read in M, metallicity, age from huge input file
-    hdulist = pyf.open('isochron_tables/nr_isochrones_finemassgrid.fits')
+    hdulist = pyf.open(prefix + '/isochron_tables/nr_isochrones_finemassgrid.fits')
     M = hdulist[0].data #[::2]
     Z = hdulist[1].data
     logT = hdulist[3].data #[::2]
@@ -126,9 +127,9 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     outarr[:, 0] = M
     outarr[:, 1] = pM
     if rot:
-        np.savetxt('massdist_rot_' + star + '.dat', outarr, fmt="%.5g")
+        np.savetxt('mass_dist_rot_' + star + '.dat', outarr, fmt="%.5g")
     else:
-        np.savetxt('massdist_nr_' + star + '.dat', outarr, fmt="%.5g")
+        np.savetxt('mass_dist_nr_' + star + '.dat', outarr, fmt="%.5g")
     
     Z_bins = makebins(Z)
     pZ = np.histogram(Z[z_indx], bins=Z_bins, weights=pdens)[0]

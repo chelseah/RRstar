@@ -10,6 +10,7 @@ import os.path
 import logging
 import base64
 import re
+from calc_probs import calcprobs
 
 LOGGER = logging.getLogger(__name__)
 
@@ -158,7 +159,9 @@ class HIPobjs(object):
     def fit(self,mean,sigma,priortype):
         #1) fit for the stelalr age and other properties using the given prior
         #2) update the fitted result saved in the HIPobjs class
-        return
+        #return
+        calcprobs(str(self.params['id']), FeHval=float(mean), 
+                  dFeH=float(sigma), norm=True, rot=True)
 
     def plot_posterior(self):
         if self.__plot:
