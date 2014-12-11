@@ -13,7 +13,8 @@ def makebins(arr):
 def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
     #prefix = '/home/tbrandt/Rotating/Rotsrc/output_rot'
-    prefix = '.'
+    prefix = 'data/'
+    outdir = 'data/'
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
         filename = prefix + '/HIP' + star + '.fits.gz'
@@ -128,10 +129,13 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     outarr = np.zeros((pM.shape[0], 2))
     outarr[:, 0] = M
     outarr[:, 1] = pM
+    mmax=M[pM==max(pM)]
+    merr=0
     if rot:
-        np.savetxt('mass_dist_rot_' + star + '.dat', outarr, fmt="%.5g")
+        mfile = outdir+'mass_dist_rot_' + star + '.dat'
     else:
-        np.savetxt('mass_dist_nr_' + star + '.dat', outarr, fmt="%.5g")
+        mfile=outdir+'mass_dist_nr_' + star + '.dat'
+    np.savetxt(mfile, outarr, fmt="%.5g")
     
     Z_bins = makebins(Z)
     pZ = np.histogram(Z[z_indx], bins=Z_bins, weights=pdens)[0]
@@ -139,10 +143,13 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     outarr = np.zeros((pZ.shape[0], 2))
     outarr[:, 0] = Z
     outarr[:, 1] = pZ
+    zmax=Z[pZ==max(pZ)]
+    zerr=0
     if rot:
-        np.savetxt('z_dist_rot_' + star + '.dat', outarr, fmt="%.5g")
+        zfile = outdir+'z_dist_rot_' + star + '.dat'
     else:
-        np.savetxt('z_dist_nr_' + star + '.dat', outarr, fmt="%.5g")
+        zfile = outdir+'z_dist_nr_' + star + '.dat'
+    np.savetxt(zfile, outarr, fmt="%.5g")
 
     T_bins = makebins(logT)
     if rot:
@@ -154,11 +161,13 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     outarr = np.zeros((pT.shape[0], 2))
     outarr[:, 0] = logT
     outarr[:, 1] = pT
+    tmax=10.**logT[pT==max(pT)]/1.e6
+    terr=0
     if rot:
-        filename = 't_dist_rot_' + star + '_z%.2f' % (FeHval) + '.dat'
+        tfile = outdir+'t_dist_rot_' + star + '_z%.2f' % (FeHval) + '.dat'
     else:
-        filename = 't_dist_nr_' + star + '_z%.2f' % (FeHval) + '.dat'
-    np.savetxt(filename, outarr, fmt="%.5g")
+        tfile = outdir+'t_dist_nr_' + star + '_z%.2f' % (FeHval) + '.dat'
+    np.savetxt(tfile, outarr, fmt="%.5g")
 
     if rot:
         inc_bins = makebins(inc)
@@ -168,8 +177,16 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
         outarr[:, 0] = inc
         outarr[:, 1] = p_inc
         outarr[-1, 1] *= 2
-        np.savetxt('inc_dist_' + star + '.dat', outarr, fmt="%.5g")
-   
+        incmax=inc[p_inc==max(p_inc)]
+        incerr=0
+        incfile = outdir+'inc_dist_' + star + '.dat'
+        np.savetxt(incfile,outarr, fmt="%.5g")
+    else:
+        incfile = ""
+    filelist=[tfile,zfile,mfile,incfile]
+    bestfit=[tmax,zmax,mmax,incmax]
+    errfit=[terr,zerr,merr,incerr]
+    return [filelist,bestfit,errfit]   
 
 #if __name__ == "__main__":
 

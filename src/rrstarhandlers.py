@@ -10,7 +10,6 @@ import os.path
 import logging
 import base64
 import re
-from calc_probs import calcprobs
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,9 +18,10 @@ from pytz import utc, timezone
 
 import tornado.web
 from tornado.escape import xhtml_escape, xhtml_unescape, url_unescape
-from catformat import cat_format,request_table 
 import numpy as np
 import time
+from Hipobject import *
+
 #import webdb
 
 #import zmq
@@ -80,100 +80,6 @@ MONTH_NAMES = {x:datetime(year=2014,month=x,day=12)
 ##################
 ## URL HANDLERS ##
 ##################
-def load_hiptable(infile,keys):
-    cat_form = cat_format()
-    fin  = open(infile,mode='r')
-    data_table=[]
-    IDarr = []
-    for line in fin.readlines():
-        if(line.startswith("#")):
-            continue
-        #print line
-        obj = cat_form.load_line(line.rstrip(),keys)
-        data_table.append(obj)
-        IDarr.append(int(cat_form.read_data(line.rstrip().split(),"id")))
-    return [data_table,IDarr]
-
-class HIPobjs(object):
-    def __init__(self,keys,values):
-        self.__plot=False
-        self.params = dict(zip(keys,values))
-        self.tempfigurelink=''
-        return
-
-    def __nonzero__(self):
-        print "check here",self.check_keywords()
-        return self.check_keywords()
-    
-    def check_keywords(self):
-        #require at least a guess of plx and fill in the vsini part ourself, 
-        #fill in error as big value if not given
-        #request at least 3 colors with resonable value
-        print "Enter checking"
-        if not "plx" in self.params:
-            print "no parallax"
-            return 1
-        if not "id" in self.params:
-            self.params.update(ID="unknown star")
-        for key in self.params.keys():
-            if key is not "id" and (not key.startswith("e")):
-                try:
-                    if not "e"+key in self.params.keys():
-                        self.params.update({'e'+key:9.e5})
-                    self.params[key] = float(self.params[key])
-                    self.params['e'+key] = float(self.params['e'+key])
-                except ValueError or IndexError:
-                    print "Value Error in %s" % key
-                    return 1
-        if not "vsini" in self.params:
-            self.params.update(vsini=0.)
-            self.params.update(evsini=9.e5)
-        #check the colors again
-        count = 0
-        for colorkey in ["BT","VT","J","H","K"]: 
-            try:
-                print self.params['e'+colorkey]
-                if(abs(self.params['e'+colorkey])<0.1):
-                    count+=1
-            except IndexError:
-                pass
-        print "count=%d" % count
-        if count>2:
-            return 0
-        else:
-            return 1
-
-    def __str__(self):
-        msg = "<p> Stellar parameters for %s are: " % (self.params["id"])
-        for key in self.params.keys():
-             if (not key=="id" and not key.startswith("e")):
-                 msg+="%s: %s &plusmn %s;" % (key,self.params[key],self.params["e"+key])
-                 #msg+="%s: %s;" % ("e"+key,self.params["e"+key])
-    
-        msg+="<p>"
-        msg+="Fitted parameters are: "
-        #append the fitting information
-        msg+="<p>"
-        return msg
-
-    def fit(self,mean,sigma,priortype):
-        #1) fit for the stelalr age and other properties using the given prior
-        #2) update the fitted result saved in the HIPobjs class
-        #return
-        calcprobs(str(self.params['id']), FeHval=float(mean), 
-                  dFeH=float(sigma), norm=True, rot=True)
-
-    def plot_posterior(self):
-        if self.__plot:
-            #create a temprary link for the figure and send back the figure path
-            return self.tempfigurelink.name 
-        else:
-            return ""
-
-    def __del__(self):
-        if not self.tempfigurelink=='' and os.path.exists(self.tempfigurelink.name):
-            os.unlink(tempfigurelink.name)
-
 
 def file_search(infile):
     fin = open(infile,mode="w")
@@ -226,7 +132,8 @@ class RRstarHandler(tornado.web.RequestHandler):
         except IndexError:
             return "Error: Couldn't find the given HIP ID "
     def post(self):
-        self.prior = self.get_argument('prior',None)
+        #self.prior = self.get_argument('prior',None)
+        self.prior = "Gaussian"
         self.prior_mean = self.get_argument('mean',np.nan)
         self.prior_sigma = self.get_argument('sigma',np.nan)
         #print self.prior
@@ -243,16 +150,22 @@ class RRstarHandler(tornado.web.RequestHandler):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
                 msg = str(star) #this is the star name
                 msg+=" Prior is %s, with mean=%f, sigma=%f" % (self.prior,float(self.prior_mean),float(self.prior_sigma))
+                
                 self.send_search_info(msg,star.plot_posterior())
             else:
                 msg = "<p> Error: Please enter valid stellar parameters."
+                print "<p> Error: Please enter valid stellar parameters."
+                print "arrive here"
                 if type(star)==str:
                     msg+="Couldn't find the given HIP ID"
                 else:
+                    print "arrive here"
                     msg+="The parameters are not in the right format"
-                    msg+=str(star)
                 self.send_search_info(msg)
-      
+        else:
+            msg="No parameters are entered"
+            self.send_search_info(msg)
+
 
 class UploadFileHandler(tornado.web.RequestHandler):
     def get(self):
