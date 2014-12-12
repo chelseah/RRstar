@@ -150,7 +150,7 @@ class RRstarHandler(tornado.web.RequestHandler):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
                 msg = str(star) #this is the star name
                 msg+="[Fe/H] prior is %s, &mu; = %.3f, &sigma; = %.3f," % (self.prior,float(self.prior_mean),float(self.prior_sigma))
-                msg += " with Z<sub>&#9737;</sub> = 0.014."
+                msg += " with Z<sub>&#9737;</sub> = 0.014 corresponding to [Fe/H] = 0."
                 
                 self.send_search_info(msg,star.plot_posterior())
             else:

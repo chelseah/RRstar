@@ -117,7 +117,7 @@ class HIPobjs(object):
             if not np.all(files_ok):
                 return ""
 
-            fig = plt.figure()
+            fig = plt.figure(figsize=(8,6))
             xlab = ["Age (Myr)", "Z", "Mass (Msun)", "$\mu$ = cos i"]
             ylab = ["dp/dT", "dp/dZ", "dp/dM", "dp/d$\mu$"]
             # Draw age, metallicity, mass, mu plots in turn

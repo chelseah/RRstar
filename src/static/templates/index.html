@@ -57,10 +57,18 @@
               </td>
           </tr>
           <tr>
+<!--
               <th valign="top">FeH Prior &#8250;</th>
               <td>
                   <textarea type='text' name='mean' style = "width:110px"/></textarea><span>Enter the center value of your metalicity prior</span>
                   <textarea type='text' name='sigma'style= "width:110px"/></textarea><span>Enter the dispersion value of your metalicity prior</span>
+              <td>
+          </tr>
+-->
+              <th valign="top">FeH Prior &#8250;</th>
+              <td>
+                  <input type='text' name='mean' style = "width:110px"/> &plusmn;
+                  <input type='text' name='sigma' style = "width:110px"/>
               <td>
           </tr>
           <tr>
@@ -109,7 +117,7 @@
       <div class="small-12 large-7 columns">
           {% block pagefooternote %}
           <ul class="no-bullet left">
-              <li> This searver is based on the article
+              <li> This server is based on the article
                <a href="http://www.arxiv.org">Tim Brandt & Chelsea X. Huang (2014) </a></li>
            </ul>
           <ul class="no-bullet left">
