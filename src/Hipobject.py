@@ -112,16 +112,19 @@ class HIPobjs(object):
             fig = plt.figure()
             xlab = ["Age (Myr)", "Z", "Mass (Msun)", "mu"]
             ylab = ["dp/dT", "dp/dZ", "dp/dM", "dp/dmu"]
+            # Draw age, metallicity, mass, mu plots in turn
             for i in range(len(self.filelist)):
                 data = np.loadtxt(self.filelist[i])
                 ax = fig.add_subplot(221 + i)
                 xmin = np.amin(data[:, 0][np.where(data[:, 1] > 1e-5)])
                 xmax = np.amax(data[:, 0][np.where(data[:, 1] > 1e-5)])
+                # draw with steps --> histogram plotting style
                 ax.plot(data[:, 0], data[:, 1], ls="steps")
                 ax.set_xlim([xmin, xmax])
                 ax.set_ylim([0, 1.1])
                 ax.set_ylabel(ylab[i] + " (x constant)")
                 ax.set_xlabel(xlab[i])
+                # Maximum number of x labels (to prevent overlap)
                 plt.locator_params(nbins=6)
                 ax.set_yticklabels('', visible=False)
 
