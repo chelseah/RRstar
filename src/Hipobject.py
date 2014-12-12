@@ -104,51 +104,34 @@ class HIPobjs(object):
 
     def plot_posterior(self):
         if self.__plot:
-            #create a temprary link for the figure and send back the figure path
-            tfile=self.filelist[0]
-            zfile=self.filelist[1]
-            mfile=self.filelist[2]
-            incfile=self.filelist[3]
-            #print os.path.exists(tfile)    
-            #print os.path.exists(zfile)    
-            if(os.path.exists(tfile) and os.path.exists(zfile)):
-                #print "plotting"
-                    
-                fig = plt.figure()
-                ax1=fig.add_subplot(211)
-                ax2=fig.add_subplot(212)
-                tdata = np.loadtxt(tfile)
-                #get age range of the age
-                tmax=max(tdata[:,1])
-                index1 = tdata[:,0]>tdata[:,0][tdata[:,1]==tmax]
-                index2 = tdata[:,1]<1.e-4
-                #print tmax,len(tdata[:,1][index2])
-                #print len(tdata[:,0][index1*index2])
-                #print len(tdata[:,0][(-index1)*index2])
-                xmax = tdata[:,0][index1*index2][0]
-                xmin = tdata[:,0][(-index1)*index2][0]
-                #print xmin, xmax
-                #ax1.plot(10**tdata[:,0]/1.e6,tdata[:,1])
-                #ax1.set_xlim([10.**xmin/1.e6,10.**xmax/1.e6])
-                ax1.plot(tdata[:,0],tdata[:,1])
-                ax1.set_xlim([xmin,xmax])
-                #print 10.**xmin, 10.**xmax
-                ax1.set_ylabel("dp/dT(x constant)")
-                ax1.set_xlabel("Myr")
-                ax2.set_ylabel("dp/dz(x constant)")
-                ax2.set_xlabel("Z")
-                zdata = np.loadtxt(zfile)
-                zmax=max(zdata[:,1])
-                ax2.plot(zdata[:,0],zdata[:,1])
-                #filename=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-                #tmpfile="static/img/tmp%s" % (filename)                 
-                tmpfile = tempfile.NamedTemporaryFile(dir="static/img/").name
-                plt.savefig(tmpfile)
-                self.tempfigurelink=tmpfile
-                return "<img src=\"/rrstar/static/img/%s.png\" height = 500>" % (tmpfile.split('/')[-1]) 
-                #return "<img src=\"/rrstar/tmpBG2P5J\" height = 500>" #% (tmpfile) 
-            else:
+            
+            files_ok = [os.path.exists(ifile) for ifile in self.filelist]
+            if not np.all(files_ok):
                 return ""
+
+            fig = plt.figure()
+            xlab = ["Age (Myr)", "Z", "Mass (Msun)", "mu"]
+            ylab = ["dp/dT", "dp/dZ", "dp/dM", "dp/dmu"]
+            for i in range(len(self.filelist)):
+                data = np.loadtxt(self.filelist[i])
+                ax = fig.add_subplot(221 + i)
+                xmin = np.amin(data[:, 0][np.where(data[:, 1] > 1e-5)])
+                xmax = np.amax(data[:, 0][np.where(data[:, 1] > 1e-5)])
+                ax.plot(data[:, 0], data[:, 1])
+                ax.set_xlim([xmin,xmax])
+                ax.set_ylabel(ylab[i] + " (x constant)")
+                ax.set_xlabel(xlab[i])
+                plt.locator_params(nbins=6)
+                ax.set_yticklabels('', visible=False)
+
+            plt.tight_layout()
+            #create a temprary link for the figure and send back the figure path
+
+            tmpfile = tempfile.NamedTemporaryFile(dir="static/img/").name
+            plt.savefig(tmpfile)
+            self.tempfigurelink=tmpfile
+            return "<img src=\"/rrstar/static/img/%s.png\" height = 500>" % (tmpfile.split('/')[-1]) 
+               
         else:
             return ""
 
