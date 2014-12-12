@@ -179,8 +179,9 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
         p_inc = np.histogram(inc[i_indx], bins=inc_bins, weights=pdens)[0]
         
         outarr = np.zeros((p_inc.shape[0], 2))
-        outarr[:, 0] = inc
+        outarr[:, 0] = np.cos(inc)
         outarr[:, 1] = p_inc
+        outarr[:, 1] /= np.amax(p_inc)
         outarr[-1, 1] *= 2
         incmax=inc[p_inc==max(p_inc)]
         incerr=0
