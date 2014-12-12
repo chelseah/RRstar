@@ -79,18 +79,26 @@ class HIPobjs(object):
             return 1
 
     def __str__(self):
-        msg = "<p> Stellar parameters for HIP%s are: " % (self.params["id"])
-        for key in self.params.keys():
-             if (not key=="id" and not key.startswith("e")):
-                 msg+="<p> %s: %s &plusmn %s;" % (key,self.params[key],self.params["e"+key])
+        #msg = "<p> Stellar parameters for HIP%s are: " % (self.params["id"])
+        msg = "<p> HIP%s Measurements: &nbsp&nbsp" % (self.params["id"])
+
+        msg += "B<sub>T</sub> = %s &plusmn %s &nbsp&nbsp&nbsp&nbsp" % (self.params["BT"],self.params["eBT"])
+        msg += "V<sub>T</sub> = %s &plusmn %s &nbsp&nbsp&nbsp&nbsp" % (self.params["VT"],self.params["eVT"])
+        msg += "v&thinsp;sin&thinsp;i = %s &plusmn %s km s<sup>-1</sup>&nbsp&nbsp&nbsp&nbsp" % (self.params["vsini"],self.params["evsini"])
+        msg += "&piv; = %s &plusmn %s mas&nbsp&nbsp&nbsp&nbsp" % (self.params["plx"],self.params["eplx"])
+
+
+        for key in []: #self.params.keys():
+            if (not key=="id" and not key.startswith("e")):
+                 msg+="%s: %s &plusmn %s" % (key,self.params[key],self.params["e"+key])
                  #msg+="%s: %s;" % ("e"+key,self.params["e"+key])
     
-        msg+="<p>"
-        msg+="Fitted parameters are: "
-        msg+="<p> t = %f &plusmn%f" % (self.fittedparams[0],self.fittederrs[0])
-        msg+="<p> z = %f &plusmn%f" % (self.fittedparams[1],self.fittederrs[1])
-        msg+="<p> m = %f &plusmn%f" % (self.fittedparams[2],self.fittederrs[2])
-        msg+="<p> inc = %f &plusmn%f" % (self.fittedparams[3],self.fittederrs[3])
+        #msg+="<p>"
+        #msg+="Fitted parameters are: "
+        #msg+="<p> t = %f &plusmn%f" % (self.fittedparams[0],self.fittederrs[0])
+        #msg+="<p> z = %f &plusmn%f" % (self.fittedparams[1],self.fittederrs[1])
+        #msg+="<p> m = %f &plusmn%f" % (self.fittedparams[2],self.fittederrs[2])
+        #msg+="<p> inc = %f &plusmn%f" % (self.fittedparams[3],self.fittederrs[3])
         #append the fitting information
         msg+="<p>"
         return msg
@@ -110,8 +118,8 @@ class HIPobjs(object):
                 return ""
 
             fig = plt.figure()
-            xlab = ["Age (Myr)", "Z", "Mass (Msun)", "mu"]
-            ylab = ["dp/dT", "dp/dZ", "dp/dM", "dp/dmu"]
+            xlab = ["Age (Myr)", "Z", "Mass (Msun)", "$\mu$ = cos i"]
+            ylab = ["dp/dT", "dp/dZ", "dp/dM", "dp/d$\mu$"]
             # Draw age, metallicity, mass, mu plots in turn
             for i in range(len(self.filelist)):
                 data = np.loadtxt(self.filelist[i])
