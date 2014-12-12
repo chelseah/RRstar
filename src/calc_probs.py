@@ -142,7 +142,8 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
 
     outarr = np.zeros((pZ.shape[0], 2))
     outarr[:, 0] = Z
-    outarr[:, 1] = pZ
+    outarr[:, 1] = pZ/(Z_bins[1:] - Z_bins[:-1])
+    outarr[:, 1] /= np.amax(outarr[:, 1])
     zmax=Z[pZ==max(pZ)]
     zerr=0
     if rot:
@@ -159,8 +160,11 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     pT = np.histogram(logT_corr, bins=T_bins, weights=pdens)[0]
         
     outarr = np.zeros((pT.shape[0], 2))
-    outarr[:, 0] = logT
-    outarr[:, 1] = pT
+    #outarr[:, 0] = logT
+    #outarr[:, 1] = pT
+    outarr[:, 0] = 10**(logT - 6)
+    outarr[:, 1] = pT/outarr[:, 0]
+    outarr[:, 1] /= np.amax(outarr[:, 1])
     tmax=10.**logT[pT==max(pT)]/1.e6
     terr=0
     if rot:

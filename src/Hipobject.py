@@ -121,20 +121,22 @@ class HIPobjs(object):
                 #get age range of the age
                 tmax=max(tdata[:,1])
                 index1 = tdata[:,0]>tdata[:,0][tdata[:,1]==tmax]
-                index2 = tdata[:,1]<1.e-5
+                index2 = tdata[:,1]<1.e-4
                 #print tmax,len(tdata[:,1][index2])
                 #print len(tdata[:,0][index1*index2])
                 #print len(tdata[:,0][(-index1)*index2])
                 xmax = tdata[:,0][index1*index2][0]
                 xmin = tdata[:,0][(-index1)*index2][0]
                 #print xmin, xmax
-                ax1.plot(10**tdata[:,0]/1.e6,tdata[:,1])
-                ax1.set_xlim([10.**xmin/1.e6,10.**xmax/1.e6])
+                #ax1.plot(10**tdata[:,0]/1.e6,tdata[:,1])
+                #ax1.set_xlim([10.**xmin/1.e6,10.**xmax/1.e6])
+                ax1.plot(tdata[:,0],tdata[:,1])
+                ax1.set_xlim([xmin,xmax])
                 #print 10.**xmin, 10.**xmax
                 ax1.set_ylabel("dp/dT(x constant)")
                 ax1.set_xlabel("Myr")
                 ax2.set_ylabel("dp/dz(x constant)")
-                ax2.set_xlabel("FeH")
+                ax2.set_xlabel("Z")
                 zdata = np.loadtxt(zfile)
                 zmax=max(zdata[:,1])
                 ax2.plot(zdata[:,0],zdata[:,1])
