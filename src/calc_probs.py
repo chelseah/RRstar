@@ -128,7 +128,8 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
 
     outarr = np.zeros((pM.shape[0], 2))
     outarr[:, 0] = M
-    outarr[:, 1] = pM
+    outarr[:, 1] = pM/(M_bins[1:] - M_bins[:-1])
+    outarr[:, 1] /= np.amax(outarr[:, 1])
     mmax=M[pM==max(pM)]
     merr=0
     if rot:
