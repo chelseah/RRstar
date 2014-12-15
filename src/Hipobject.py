@@ -34,6 +34,8 @@ class HIPobjs(object):
         self.filelist=["","","",""]
         self.fittedparams=np.zeros(4)
         self.fittederrs=np.zeros(4)
+        self.__link="rrstar/data/t_dist_rot_27321_z0.30.dat"
+        self.__linkname="testdownload"
         return
 
     def __nonzero__(self):
@@ -100,6 +102,8 @@ class HIPobjs(object):
         #msg+="<p> m = %f &plusmn%f" % (self.fittedparams[2],self.fittederrs[2])
         #msg+="<p> inc = %f &plusmn%f" % (self.fittedparams[3],self.fittederrs[3])
         #append the fitting information
+        msg+="<p>"
+        msg+="<a href=\"%s\" download=\"%s\">Posteriors for star HIP%s </a>" % (self.__link,self.__linkname,self.params["id"]) 
         msg+="<p>"
         return msg
 
