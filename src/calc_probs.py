@@ -195,7 +195,7 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     filelist=[tfile,zfile,mfile,incfile]
     bestfit=[tmax,zmax,mmax,incmax]
     errfit=[terr,zerr,merr,incerr]
-    return [filelist, outdir, bestfit, errfit]   
+    return [filelist, outdir, bestfit, errfit, chi2]   
 
 #if __name__ == "__main__":
 

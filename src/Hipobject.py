@@ -88,13 +88,17 @@ class HIPobjs(object):
 
     def __str__(self):
         #msg = "<p> Stellar parameters for HIP%s are: " % (self.params["id"])
-        msg = "<p> HIP%s Measurements: &nbsp&nbsp" % (self.params["id"])
+        msg = "<p> HIP %s Measurements: &nbsp&nbsp" % (self.params["id"])
 
         msg += "B<sub>T</sub> = %s &plusmn %s &nbsp&nbsp&nbsp&nbsp" % (self.params["BT"],self.params["eBT"])
         msg += "V<sub>T</sub> = %s &plusmn %s &nbsp&nbsp&nbsp&nbsp" % (self.params["VT"],self.params["eVT"])
         msg += "v&thinsp;sin&thinsp;i = %s &plusmn %s km s<sup>-1</sup>&nbsp&nbsp&nbsp&nbsp" % (self.params["vsini"],self.params["evsini"])
         msg += "&piv; = %s &plusmn %s mas&nbsp&nbsp&nbsp&nbsp" % (self.params["plx"],self.params["eplx"])
 
+        msg += "<br>Additional systematic uncertainties added:  "
+        msg += "B<sub>T</sub>: &plusmn 0.005 &nbsp&nbsp&nbsp&nbsp"
+        msg += "V<sub>T</sub>: &plusmn 0.005 &nbsp&nbsp&nbsp&nbsp"
+        msg += "v&thinsp;sin&thinsp;i: &plusmn 30 km s<sup>-1"
 
         for key in []: #self.params.keys():
             if (not key=="id" and not key.startswith("e")):
@@ -109,6 +113,7 @@ class HIPobjs(object):
         #msg+="<p> inc = %f &plusmn%f" % (self.fittedparams[3],self.fittederrs[3])
         #append the fitting information
         msg+="<p>"
+        msg += "Minimum &chi;<sup>2</sup> = %.2f&ensp;&ensp;" % (self.minchi2)
         msg += "Posteriors for star HIP %s:" % (self.params["id"])
 
         msg+="&ensp;<a href=\"%s\" download=\"%s\">Age</a>" % \
@@ -127,7 +132,7 @@ class HIPobjs(object):
         #1) fit for the stelalr age and other properties using the given prior
         #2) update the fitted result saved in the HIPobjs class
         #return
-        self.filelist,self.datadir,self.fittedparams,self.fittederrs=calcprobs(str(self.params['id']), FeHval=float(mean), 
+        self.filelist,self.datadir,self.fittedparams,self.fittederrs,self.minchi2=calcprobs(str(self.params['id']), FeHval=float(mean), 
                   dFeH=float(sigma), norm=True, rot=True)
 
     def plot_posterior(self):
