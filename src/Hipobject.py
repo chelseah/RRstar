@@ -34,8 +34,14 @@ class HIPobjs(object):
         self.filelist=["","","",""]
         self.fittedparams=np.zeros(4)
         self.fittederrs=np.zeros(4)
-        self.__link="rrstar/data/t_dist_rot_27321_z0.30.dat"
-        self.__linkname="testdownload"
+        self.__agelink="t_dist_rot_%d.dat" % (self.params["id"])
+        self.__agelinkname="age_pdist_hip%d.dat" % (self.params["id"])
+        self.__masslink="mass_dist_rot_%d.dat" % (self.params["id"])
+        self.__masslinkname="mass_pdist_hip%d.dat" % (self.params["id"])
+        self.__Zlink="z_dist_rot_%d.dat" % (self.params["id"])
+        self.__Zlinkname="z_pdist_hip%d.dat" % (self.params["id"])
+        self.__mulink="mu_dist_%d.dat" % (self.params["id"])
+        self.__mulinkname="mu_pdist_hip%d.dat" % (self.params["id"])
         return
 
     def __nonzero__(self):
@@ -103,7 +109,17 @@ class HIPobjs(object):
         #msg+="<p> inc = %f &plusmn%f" % (self.fittedparams[3],self.fittederrs[3])
         #append the fitting information
         msg+="<p>"
-        msg+="<a href=\"%s\" download=\"%s\">Posteriors for star HIP%s </a>" % (self.__link,self.__linkname,self.params["id"]) 
+        msg += "Posteriors for star HIP %s:" % (self.params["id"])
+
+        msg+="&ensp;<a href=\"%s\" download=\"%s\">Age</a>" % \
+            ("rrstar/" + self.datadir + self.__agelink, self.__agelinkname) 
+        msg+="&ensp;<a href=\"%s\" download=\"%s\">Mass</a>" % \
+            ("rrstar/" + self.datadir + self.__masslink, self.__masslinkname) 
+        msg+="&ensp;<a href=\"%s\" download=\"%s\">Metallicity</a>" % \
+            ("rrstar/" + self.datadir + self.__Zlink, self.__Zlinkname) 
+        msg+="&ensp;<a href=\"%s\" download=\"%s\">&mu;</a>" % \
+            ("rrstar/" + self.datadir + self.__mulink, self.__mulinkname) 
+        #msg+="<a href=\"%s\" download=\"%s\">Posteriors for star HIP%s </a>" % (self.__link,self.__linkname,self.params["id"]) 
         msg+="<p>"
         return msg
 
@@ -111,7 +127,7 @@ class HIPobjs(object):
         #1) fit for the stelalr age and other properties using the given prior
         #2) update the fitted result saved in the HIPobjs class
         #return
-        self.filelist,self.fittedparams,self.fittederrs=calcprobs(str(self.params['id']), FeHval=float(mean), 
+        self.filelist,self.datadir,self.fittedparams,self.fittederrs=calcprobs(str(self.params['id']), FeHval=float(mean), 
                   dFeH=float(sigma), norm=True, rot=True)
 
     def plot_posterior(self):
