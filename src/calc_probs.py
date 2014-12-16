@@ -18,7 +18,7 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     #prefix = 'data/'
     outdir = tempfile.mkdtemp(dir="static/data/") + "/"
     #outdir = "static/data/"
-    print outdir
+    #print outdir
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
         filename = prefix + '/HIP' + star + '.fits.gz'
@@ -26,7 +26,7 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
         filename = prefix + '/HIP' + star + '.fits'
     hdulist = pyf.open(filename)
     chi2 = hdulist[0].data
-    print star, chi2
+    #print star, chi2
     data = hdulist[1].data.astype(np.float)
     if rot:
         t_ratio = hdulist[2].data

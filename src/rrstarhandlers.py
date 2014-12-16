@@ -103,7 +103,7 @@ class RRstarHandler(tornado.web.RequestHandler):
         #    self.write("no parameters given\n")
         #    self.render("rrstar/readme.html")
     def send_search_info(self,msg,canvas=""):
-        print msg
+        #print msg
         #self.render("searchresult.html",outcome=msg)
         if canvas=="":
             self.render("index.html",outcome=msg,canvas=self.empty_canvas)
@@ -142,6 +142,7 @@ class RRstarHandler(tornado.web.RequestHandler):
             self.prior_sigma = 0.1
         if self.prior_sigma < 0:
             self.prior_sigma = 0.1
+            #print self.prior, self.prior_mean, self.prior_sigma
 
         self.quicksearch_params = self.get_argument('find',None)
         if self.quicksearch_params:
@@ -151,7 +152,7 @@ class RRstarHandler(tornado.web.RequestHandler):
             #msg = "search ID is %s, prior is %s" % (self.quicksearch_params,self.prior)
             star = self.do_search()
             if(star):
-                print "star true"
+                #print "star true"
             if(not star):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
                 msg = str(star) #this is the star name
@@ -161,12 +162,12 @@ class RRstarHandler(tornado.web.RequestHandler):
                 self.send_search_info(msg,star.plot_posterior())
             else:
                 msg = "<p> Error: Please enter valid stellar parameters."
-                print "<p> Error: Please enter valid stellar parameters."
-                print "arrive here"
+                #print "<p> Error: Please enter valid stellar parameters."
+                #print "arrive here"
                 if type(star)==str:
                     msg+="Couldn't find the given HIP ID"
                 else:
-                    print "arrive here"
+                    #print "arrive here"
                     msg+="The parameters are not in the right format"
                 self.send_search_info(msg)
         else:
