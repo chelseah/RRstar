@@ -151,8 +151,8 @@ class RRstarHandler(tornado.web.RequestHandler):
                     )
             #msg = "search ID is %s, prior is %s" % (self.quicksearch_params,self.prior)
             star = self.do_search()
-            if(star):
-                #print "star true"
+            #if(star):
+            #    #print "star true"
             if(not star):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
                 msg = str(star) #this is the star name
