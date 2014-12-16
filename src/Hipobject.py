@@ -34,7 +34,7 @@ class HIPobjs(object):
         self.filelist=["","","",""]
         self.fittedparams=np.zeros(4)
         self.fittederrs=np.zeros(4)
-        self.__link="rrstar/data/t_dist_rot_27321_z0.30.dat"
+        self.__link="rrstar/static/data/t_dist_rot_27321_z0.30.dat"
         self.__linkname="testdownload"
         return
 
