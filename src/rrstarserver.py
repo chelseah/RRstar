@@ -143,8 +143,8 @@ if __name__ == '__main__':
     #######################
     ## APPLICATION SETUP ##
     #######################
-    print STATICPATH
-    print TEMPLATEPATH
+    #print STATICPATH
+    #print TEMPLATEPATH
    
     app = tornado.web.Application(
         handlers=HANDLERS,
