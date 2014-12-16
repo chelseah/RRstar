@@ -134,9 +134,14 @@ class RRstarHandler(tornado.web.RequestHandler):
     def post(self):
         #self.prior = self.get_argument('prior',None)
         self.prior = "Gaussian"
-        self.prior_mean = self.get_argument('mean',np.nan)
-        self.prior_sigma = self.get_argument('sigma',np.nan)
-        #print self.prior
+        try:
+            self.prior_mean = float(self.get_argument('mean',np.nan))
+            self.prior_sigma = float(self.get_argument('sigma',np.nan))
+        except:
+            self.prior_mean = 0
+            self.prior_sigma = 0.1
+            print self.prior, self.prior_mean, self.prior_sigma
+
         self.quicksearch_params = self.get_argument('find',None)
         if self.quicksearch_params:
             self.quicksearch_params = xhtml_escape(
@@ -149,7 +154,7 @@ class RRstarHandler(tornado.web.RequestHandler):
             if(not star):
                 star.fit(self.prior_mean,self.prior_sigma,self.prior)
                 msg = str(star) #this is the star name
-                msg+="[Fe/H] prior is %s, &mu; = %.3f, &sigma; = %.3f," % (self.prior,float(self.prior_mean),float(self.prior_sigma))
+                msg+="[Fe/H] prior is %s, &mu; = %.3f, &sigma; = %.3f," % (self.prior,self.prior_mean,self.prior_sigma)
                 msg += " with Z<sub>&#9737;</sub> = 0.014 corresponding to [Fe/H] = 0."
                 
                 self.send_search_info(msg,star.plot_posterior())

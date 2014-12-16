@@ -132,8 +132,8 @@ class HIPobjs(object):
         #1) fit for the stelalr age and other properties using the given prior
         #2) update the fitted result saved in the HIPobjs class
         #return
-        self.filelist,self.datadir,self.fittedparams,self.fittederrs,self.minchi2=calcprobs(str(self.params['id']), FeHval=float(mean), 
-                  dFeH=float(sigma), norm=True, rot=True)
+        self.filelist,self.datadir,self.fittedparams,self.fittederrs,self.minchi2=calcprobs(str(self.params['id']), FeHval=mean, 
+                  dFeH=sigma, norm=True, rot=True)
 
     def plot_posterior(self):
         if self.__plot:
