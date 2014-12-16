@@ -140,6 +140,8 @@ class RRstarHandler(tornado.web.RequestHandler):
         except:
             self.prior_mean = 0
             self.prior_sigma = 0.1
+        if self.prior_sigma < 0:
+            self.prior_sigma = 0.1
             #print self.prior, self.prior_mean, self.prior_sigma
 
         self.quicksearch_params = self.get_argument('find',None)

@@ -14,7 +14,8 @@ def makebins(arr):
 def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
     #prefix = '/home/tbrandt/Rotating/Rotsrc/output_rot'
-    prefix = 'data/'
+    prefix = '/home/tbrandt/data/output_rot'
+    #prefix = 'data/'
     outdir = tempfile.mkdtemp(dir="static/data/") + "/"
     #outdir = "static/data/"
     #print outdir
