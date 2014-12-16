@@ -94,6 +94,7 @@ class RRstarHandler(tornado.web.RequestHandler):
         self.hip_table,self.IDarr=load_hiptable(catlog,self.keys)
         self.IDarr = np.array(self.IDarr)
         self.empty_canvas = "<img src=\"/rrstar/static/img/empty_canvas.png\" height = 500>"
+        self.rottype = 'Rotation'
         return
     def get(self):
         #self.write("in get\n")
@@ -137,9 +138,12 @@ class RRstarHandler(tornado.web.RequestHandler):
         try:
             self.prior_mean = float(self.get_argument('mean',np.nan))
             self.prior_sigma = float(self.get_argument('sigma',np.nan))
+            self.rottype = self.get_argument('rotation')
+            #print self.prior_mean,self.prior_sigma,self.rottype
         except:
             self.prior_mean = 0
             self.prior_sigma = 0.1
+            self.rottype = 'Rotation'
         if self.prior_sigma < 0:
             self.prior_sigma = 0.1
             #print self.prior, self.prior_mean, self.prior_sigma
@@ -152,7 +156,7 @@ class RRstarHandler(tornado.web.RequestHandler):
             #msg = "search ID is %s, prior is %s" % (self.quicksearch_params,self.prior)
             star = self.do_search()
             if(not star):
-                star.fit(self.prior_mean,self.prior_sigma,self.prior)
+                star.fit(self.prior_mean,self.prior_sigma,self.prior,self.rottype)
                 msg = str(star) #this is the star name
                 msg+="[Fe/H] prior is %s, &mu; = %.3f, &sigma; = %.3f," % (self.prior,self.prior_mean,self.prior_sigma)
                 msg += " with Z<sub>&#9737;</sub> = 0.014 corresponding to [Fe/H] = 0."
