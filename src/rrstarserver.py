@@ -89,11 +89,11 @@ if __name__ == '__main__':
     #PID_FILE.close()
 
     ## get a logger
-    #LOGGER = logging.getLogger('rrstarserver')
-    #if DEBUG:
-    #    LOGGER.setLevel(logging.DEBUG)
-    #else:
-    #    LOGGER.setLevel(logging.INFO)
+    LOGGER = logging.getLogger('rrstarserver')
+    if DEBUG:
+        LOGGER.setLevel(logging.DEBUG)
+    else:
+        LOGGER.setLevel(logging.INFO)
 
 
     ###################
@@ -160,11 +160,12 @@ if __name__ == '__main__':
     http_server = tornado.httpserver.HTTPServer(app, xheaders=True)
     http_server.listen(options.port, options.serve)
     #app.listen(8888) #this can be used to see the get result from my laptop ip
-    #LOGGER.info('starting event loop...')
+    LOGGER.info('starting event loop...')
 
     # start the IOLoop and begin serving requests
     try:
         tornado.ioloop.IOLoop.instance().start()
 
     except KeyboardInterrupt:
+        LOGGER.info('shutting down...')
         exit()

@@ -2,6 +2,7 @@ import pyfits as pyf
 import numpy as np
 from scipy import special
 import sys
+import tempfile
 
 def makebins(arr):
     bins = np.zeros(arr.shape[0] + 1)
@@ -14,7 +15,9 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
     #prefix = '/home/tbrandt/Rotating/Rotsrc/output_rot'
     prefix = 'data/'
-    outdir = 'data/'
+    outdir = tempfile.mkdtemp(dir="static/data/") + "/"
+    #outdir = "static/data/"
+    print outdir
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
         filename = prefix + '/HIP' + star + '.fits.gz'
@@ -169,9 +172,9 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     tmax=10.**logT[pT==max(pT)]/1.e6
     terr=0
     if rot:
-        tfile = outdir+'t_dist_rot_' + star + '_z%.2f' % (FeHval) + '.dat'
+        tfile = outdir+'t_dist_rot_' + star + '.dat' #'_z%.2f' % (FeHval) + '.dat'
     else:
-        tfile = outdir+'t_dist_nr_' + star + '_z%.2f' % (FeHval) + '.dat'
+        tfile = outdir+'t_dist_nr_' + star + '.dat' #'_z%.2f' % (FeHval) + '.dat'
     np.savetxt(tfile, outarr, fmt="%.5g")
 
     if rot:
@@ -185,14 +188,14 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
         outarr[-1, 1] *= 2
         incmax=inc[p_inc==max(p_inc)]
         incerr=0
-        incfile = outdir+'inc_dist_' + star + '.dat'
+        incfile = outdir+'mu_dist_' + star + '.dat'
         np.savetxt(incfile,outarr, fmt="%.5g")
     else:
         incfile = ""
     filelist=[tfile,zfile,mfile,incfile]
     bestfit=[tmax,zmax,mmax,incmax]
     errfit=[terr,zerr,merr,incerr]
-    return [filelist,bestfit,errfit]   
+    return [filelist, outdir, bestfit, errfit, chi2]   
 
 #if __name__ == "__main__":
 

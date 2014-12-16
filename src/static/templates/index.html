@@ -6,7 +6,7 @@
         <meta name="description"
               content="RRstar">
         <meta name="author" content="RRstar">
-        <title> Rapidly Rotating Star Search Engine </title>
+        <title> Bayesian Parameters for Rotating Stars </title>
         <link href="{{ static_url("css/index.css") }}"
               type="text/css" rel="stylesheet">
         <link href="{{ static_url("css/normalize.css") }}"
@@ -25,22 +25,26 @@
 
          <div class="row">
             <div class="small-12 columns">
-              <h1>Rapidly Rotating Star Calculator</h1>
+              <!-- <h1>Rapidly Rotating Star Calculator</h1> -->
+	      <h1>Bayesian Parameters for Rotating Stars</h1>
             </div>
          </div>
          
          <div class="row">
             <div class="small-12 columns">
 
-              <p> This is a test server for computing rapid rotating star calculations.
-
+              <!-- <p> This is a test server for computing rapid rotating star calculations. -->
+	      <p> Use <i>Tycho</i>, <i>Hipparcos</i>, and v&thinsp;sin&thinsp;i measurements, together with a metallicity prior, to infer properties of early-type stars.
+<br>
+Important note: [Fe/H] prior is Gaussian.  If blank, [Fe/H] = 0 &plusmn; 0.1 dex will be assumed (Z<sub>&#9737;</sub> = 0.014 &#8596; [Fe/H] = 0).
             </div>
         </div>
         <div class="row">
             <div class="small-12 medium-8 large-6 medium-centered large-centered columns">
 
-                <p> Input the Hipparcos number of the star in the Object box:
-                <p> Example: HIP27321 or HIP 27321 or 27321
+                <p> Input the Hipparcos number of the star in the Object box.
+                <br>
+		Examples: HIP27321 or HIP 27321 or 27321
 
             </div>
         </div>
@@ -67,8 +71,8 @@
 -->
               <th valign="top">FeH Prior &#8250;</th>
               <td>
-                  <input type='text' name='mean' style = "width:110px"/> &plusmn;
-                  <input type='text' name='sigma' style = "width:110px"/>
+                  <input type='text' name='mean' style = "width:112px"/> &plusmn;
+                  <input type='text' name='sigma' style = "width:112px"/>
               <td>
           </tr>
           <tr>
