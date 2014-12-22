@@ -31,7 +31,7 @@ class HIPobjs(object):
         self.__plot=True
         self.params = dict(zip(keys,values))
         self.tempfigurelink=''
-        self.filelist=["","","",""]
+        self.filelist=[]
         self.fittedparams=np.zeros(4)
         self.fittederrs=np.zeros(4)
         self.__agelink="t_dist_rot_%d.dat" % (self.params["id"])
@@ -73,7 +73,7 @@ class HIPobjs(object):
             self.params.update(evsini=9.e5)
         #check the colors again
         count = 0
-        for colorkey in ["BT","VT","J","H","K"]: 
+        for colorkey in ["BT","VT"]: #,"J","H","K"]: 
             try:
                 #print self.params['e'+colorkey]
                 if(abs(self.params['e'+colorkey])<0.1):
@@ -122,8 +122,9 @@ class HIPobjs(object):
             ("rrstar/" + self.datadir + self.__masslink, self.__masslinkname) 
         msg+="&ensp;<a href=\"%s\" download=\"%s\">Metallicity</a>" % \
             ("rrstar/" + self.datadir + self.__Zlink, self.__Zlinkname) 
-        msg+="&ensp;<a href=\"%s\" download=\"%s\">&mu;</a>" % \
-            ("rrstar/" + self.datadir + self.__mulink, self.__mulinkname) 
+        if len(self.filelist) > 3:
+            msg+="&ensp;<a href=\"%s\" download=\"%s\">&mu;</a>" % \
+                ("rrstar/" + self.datadir + self.__mulink, self.__mulinkname) 
         #msg+="<a href=\"%s\" download=\"%s\">Posteriors for star HIP%s </a>" % (self.__link,self.__linkname,self.params["id"]) 
         msg+="<p>"
         return msg
@@ -132,8 +133,8 @@ class HIPobjs(object):
         #1) fit for the stelalr age and other properties using the given prior
         #2) update the fitted result saved in the HIPobjs class
         #return
-        self.filelist,self.datadir,self.fittedparams,self.fittederrs,self.minchi2=calcprobs(str(self.params['id']), FeHval=mean, 
-                  dFeH=sigma, norm=True, rot=rottype=="True")
+        self.filelist,self.datadir,self.fittedparams,self.fittederrs,self.minchi2=calcprobs(str(self.params['id']), FeHval=float(mean), 
+                  dFeH=float(sigma), norm=True, rot=rottype=="True")
 
     def plot_posterior(self):
         if self.__plot:

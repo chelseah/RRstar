@@ -87,8 +87,8 @@ def file_search(infile):
     return str(infile)
 
 class RRstarHandler(tornado.web.RequestHandler):
-    def initialize(self,catlog="data/hip_band.txt",keys=[]):
-        self.keys = ["id","plx","eplx","vsini","evsini","BT","eBT","VT","eVT","J","eJ","K","eK","H","eH"]
+    def initialize(self,catlog="data/hip_band_sn10.txt",keys=[]):
+        self.keys = ["id","plx","eplx","vsini","evsini","BT","eBT","VT","eVT"] #,"J","eJ","K","eK","H","eH"]
         if(not keys==[]):
             self.keys=keys
         self.hip_table,self.IDarr=load_hiptable(catlog,self.keys)
@@ -138,16 +138,20 @@ class RRstarHandler(tornado.web.RequestHandler):
         try:
             self.prior_mean = float(self.get_argument('mean',np.nan))
             self.prior_sigma = float(self.get_argument('sigma',np.nan))
-            self.rottype = self.get_argument('rotation')
             #print self.prior_mean,self.prior_sigma,self.rottype
         except:
             self.prior_mean = 0
             self.prior_sigma = 0.1
-            self.rottype = 'Rotation'
+            self.rottype = self.get_argument('rotation')
         if self.prior_sigma < 0:
             self.prior_sigma = 0.1
             #print self.prior, self.prior_mean, self.prior_sigma
-
+        
+        try:
+            self.rottype = self.get_argument('rotation')
+        except:
+            self.rottype = 'Rotation'
+            
         self.quicksearch_params = self.get_argument('find',None)
         if self.quicksearch_params:
             self.quicksearch_params = xhtml_escape(

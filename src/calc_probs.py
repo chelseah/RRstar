@@ -14,18 +14,19 @@ def makebins(arr):
 def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
     
     #prefix = '/home/tbrandt/Rotating/Rotsrc/output_rot'
-    #prefix = '/home/tbrandt/data/output_rot'
-    prefix = 'data/'
+    prefix = '/home/tbrandt/data' #/output_rot'
+    #prefix = 'data/'
     outdir = tempfile.mkdtemp(dir="static/data/") + "/"
     #outdir = "static/data/"
     #print outdir
     #filename = 'output_alt2/HIP' + star + '_20140903.dat'
     if rot:
-        filename = prefix + '/HIP' + star + '.fits.gz'
+        filename = prefix + '/output_rot/HIP' + star + '.fits.gz'
     else:
-        filename = prefix + '/HIP' + star + '.fits'
+        filename = prefix + '/output_nr/HIP' + star + '.fits'
     hdulist = pyf.open(filename)
     chi2 = hdulist[0].data
+    print star, chi2, filename
     #print star, chi2
     data = hdulist[1].data.astype(np.float)
     if rot:
@@ -191,9 +192,12 @@ def calcprobs(star, FeHval=0, dFeH=0.13, norm=False, rot=True):
         incerr=0
         incfile = outdir+'mu_dist_' + star + '.dat'
         np.savetxt(incfile,outarr, fmt="%.5g")
+        filelist=[tfile,zfile,mfile,incfile]
     else:
         incfile = ""
-    filelist=[tfile,zfile,mfile,incfile]
+        incmax = incerr = np.nan
+        filelist=[tfile,zfile,mfile]
+
     bestfit=[tmax,zmax,mmax,incmax]
     errfit=[terr,zerr,merr,incerr]
     return [filelist, outdir, bestfit, errfit, chi2]   
