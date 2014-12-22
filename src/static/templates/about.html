@@ -27,7 +27,35 @@
          <div class="row">
             <div class="small-12 columns">
 
-              <p> TOBEDONE 
+	      <p><p>
+
+	      This online tool is less flexible than the full analysis presented in our paper.  It cannot accept arbitrary input photometry, parallax, rotational velocity, and extinction.  This is due to the large size of the grid of the stellar models when including rotation.  <b>If you would like to compute posterior probability distributions with parameters of your choice (including reddening), please e-mail tbrandt-at-ias-dot-edu.</b>  The server here regularly deletes probability distributions it has computed; we will not see your queries.
+
+	      <p><p>
+	      
+              <!-- p> TOBEDONE -->
+	      <h3>Assumptions of the Online Tool's Analysis</h3>
+	      <ul>
+		<li>The <i>Hipparcos</i> parallaxes are correct.  This is demonstrably untrue in the case of the Pleiades, but should be a good assumption for nearby stars.  </li>
+		<li> The additional systematic uncertainties that we add are sufficient to capture systematics in the stellar models. </li>
+		<li> Reddening is negligible.  A future version of this calculator will hopefully allow for user-specified reddening.  In the meantime, e-mail tbrandt-at-ias-dot-edu for an analysis with arbitrary parameters. </li>
+		<li> Stellar rotation and evolution have had little effect on the surface abundances.  The failure of this assumption could significantly impact the results for chemically peculiar stars.  </li>
+	      </ul>
+
+	      <h3>Model Sources:</h3>
+	      <ul>
+		<li> Stellar structure and evolution: <a href="http://adsabs.harvard.edu/abs/2013A%26A...553A..24G">Georgy et al. 2013, A&amp;A, 553, 24</a> </li>
+		<li> Stellar atmospheres: <a href="http://adsabs.harvard.edu/abs/2004astro.ph..5087C">Castelli &amp; Kurucz 2004 </a> </li>
+		<li> Orientation-dependent T<sub>eff</sub> and g<sub>eff</sub>: <a href="http://adsabs.harvard.edu/abs/2011A%26A...533A..43E"> Espinosa Lara &amp; Rieutord 2011, A&amp;A, 533, 43</a></li>
+		</ul>
+	      
+	      <h3>Data Sources:</h3>
+	      <ul>
+		<li> Multi-epoch photometry: <a href="http://adsabs.harvard.edu/abs/2000A%26A...355L..27H"><i>Tycho-2</i>, H&oslash;g et al. 2000, A&amp;A, 355, L27</a></li>
+		<li> Astrometry: <a href="http://adsabs.harvard.edu/abs/2007A%26A...474..653V"><i>Hipparcos</i>, van Leeuwen 2007, A&amp;A, 474, 653</a></li>
+		<li> <i>Tycho</i> photometric system: <a href="http://adsabs.harvard.edu/abs/2012PASP..124..140B"> Bessell &amp; Murphy 2012, PASP, 124, 140</a></li>
+	      </ul>
+
             </div>
         </div>
 
@@ -38,7 +66,7 @@
       <div class="small-12 large-7 columns">
           {% block pagefooternote %}
           <ul class="no-bullet left">
-              <li> This searver is based on the article
+              <li> This server is based on the article
               <a href="http://www.arxiv.org">Tim Brandt & Chelsea X. Huang (2014) </a></li>
           </ul>
           <ul class="no-bullet left">
